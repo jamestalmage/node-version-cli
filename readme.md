@@ -49,13 +49,13 @@ The program outputs the following:
 If the final arguments are `Version Condition`s (i.e. conditions not followed by`Output`), failure to satisfy the conditions will 
 cause a `VersionConditionError` to be thrown and the process to exit with a non-zero error code. 
 
-You can use this with the bash `||` operator to **skip** commands for some versions.
+You can use this with the bash `||` operator to *skip* commands for some versions.
 
 ```
-node-version --lt-3.0.0 --gte-4.0.0 || npm run node-3-only-tests
+node-version --lt-3.0.0 || node-version --gte-4.0.0 || npm run node-3-only-tests
 ```
 
-*Note that using `||` means the command runs only when the condition fails.
+*Note that using `||` means the following command runs only when the conditions fail.
  Running only when the conditions pass is doable, but a bit more convoluted.
  It is often easier to just invert your condition and stick to using `||`.*
 
