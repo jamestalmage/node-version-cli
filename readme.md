@@ -44,6 +44,19 @@ The program outputs the following:
 * If all conditions are satisfied: `outputA outputB outputC`
 * If only 1 **or** 2 **or** none are satisfied: `<empty output>`
 
+## Failure Conditions and Exit Codes
+
+If the final arguments are `Version Condition`s (i.e. not `Output`), failure to satisfy the conditions will 
+cause a `VersionConditionError` to be thrown and the process to exit with a non-zero error code. 
+
+You can use this with the bash `||` operator to only run commands for Node versions that fail the condition.
+
+```
+node-version --lt-3.0.0 --gte-4.0.0 || npm run node-3-only-tests
+```
+
+*Running only when something passes the conditions is doable, but a bit more convoluted.
+ It is often easier to just invert your condition.*
 
 ## Intended Use
 

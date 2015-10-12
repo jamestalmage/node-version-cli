@@ -9,7 +9,11 @@ node_js:
 before_install:
   - '[ "${TRAVIS_NODE_VERSION}" != "0.8" ] || npm install -g npm@1.4.28'
   - '[ "${TRAVIS_NODE_VERSION}" != "0.8" ] || npm install -g npm@2'
+  - 'npm link'
 
 script:
   - '[ "${TRAVIS_NODE_VERSION}" == "0.8" ] || npm test'
   - '[ "${TRAVIS_NODE_VERSION}" != "0.8" ] || npm run debug'
+  - '[ "${TRAVIS_NODE_VERSION}" != "0.8" ] || node-version --gte-0.8.0 --lt-0.9.0'
+  - '[ "${TRAVIS_NODE_VERSION}" != "0.10" ] || node-version --gte-0.10.0 --lt-0.11.0'
+  - '[ "${TRAVIS_NODE_VERSION}" != "0.12" ] || node-version --gte-0.12.0 --lt-0.13.0'

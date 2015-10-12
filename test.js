@@ -144,3 +144,24 @@ it('basic operation', function () {
 		cli(args, '2.2.0')
 	);
 });
+
+it('throwing', function () {
+	function run(args, version, name) {
+		var caught = null;
+		try {
+			nv(args, version, name);
+		} catch (e) {
+			caught = e.toJSON(false);
+		}
+		return caught;
+	}
+
+	nv(['--gte-3.0.0'], '3.0.0', process);
+	assert.deepEqual(
+		run(['--gte-3.0.0'], '2.5.0', 'Node'),
+		{
+			name: 'VersionConditionError',
+			message: 'Node version 2.5.0 does not satisfy requirements (>=3.0.0)'
+		}
+	);
+});

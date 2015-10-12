@@ -6,6 +6,7 @@ process.parseArgs = parseArgs;
 process.parseCondition = argToCondition;
 process.conditionSatisfied = conditionSatisfied;
 process.allConditionsSatisfied = allConditionsSatisfied;
+process.VersionConditionError = VersionConditionError;
 
 function argToCondition(arg) {
 	var match = /^--(gte?|lte?|eq)-(.*)$/.exec(arg);
@@ -25,7 +26,7 @@ function parseArgs(args) {
 				conditionState = true;
 				responses.push({
 					conditions: [],
-					value: []
+					value: null
 				});
 			}
 			responses[responses.length - 1].conditions.push(condition);
@@ -34,7 +35,8 @@ function parseArgs(args) {
 			if (!responses.length) {
 				throw new Error('first arg should represent a semver conditional (i.e. "--gte-3.0.0"');
 			}
-			responses[responses.length - 1].value.push(arg);
+			var resp = responses[responses.length - 1];
+			(resp.value || (resp.value = [])).push(arg);
 		}
 	}
 	return responses;
@@ -50,13 +52,55 @@ function allConditionsSatisfied(conditions, verion) {
 	});
 }
 
-function process(args, version) {
+function process(args, version, throwWithName) {
 	var arr = [];
 	parseArgs(args)
 		.forEach(function (obj) {
 			if (allConditionsSatisfied(obj.conditions, version)) {
 				arr.push(obj.value);
+			} else if (throwWithName) {
+				throw new VersionConditionError(obj.conditions, version, throwWithName);
 			}
 		});
 	return arr;
 }
+
+var SYMBOLS = {
+	gte: '>=',
+	gt: '>',
+	lte: '<=',
+	lt: '<',
+	eq: '='
+};
+
+function VersionConditionError(conditions, version, name) {
+	var conditionStrings = conditions.map(function (condition) {
+		return SYMBOLS[condition.condition] + condition.version;
+	});
+
+	this.message = name + ' version ' + version +
+		' does not satisfy requirements (' +
+		conditionStrings.join(' ') +
+		')';
+
+	// istanbul ignore next
+	if (Error.captureStackTrace) {
+		Error.captureStackTrace(this);
+	}
+}
+
+VersionConditionError.prototype = new Error();
+VersionConditionError.prototype.name = 'VersionConditionError';
+VersionConditionError.prototype.constructor = VersionConditionError;
+
+VersionConditionError.prototype.toJSON = function (stack) {
+	var props = {
+		name: this.name,
+		message: this.message
+	};
+	// istanbul ignore next
+	if (stack !== false) {
+		props.stack = this.stack;
+	}
+	return props;
+};
