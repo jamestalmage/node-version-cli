@@ -63,7 +63,7 @@ node-version --lt-3.0.0 --gte-4.0.0 || npm run node-3-only-tests
 
 When combined with [Command Substitution](https://www.gnu.org/software/bash/manual/html_node/Command-Substitution.html) this becomes a powerful construct for controlling how bash scripts behave.
 
-The original intended use was avoiding using the [babel](https://babeljs.io/) compiler in during my [mocha](http://mochajs.org/) tests for newer versions of node that already supported the ES6 features I needed.
+The original intended use was disabling the [babel](https://babeljs.io/) compiler for [mocha](http://mochajs.org/) tests running in newer versions of node (which already support some ES6 features).
 
 ```
 $ mocha $(node-version --lt-4.0.0 --compilers js:babel/register)
@@ -71,7 +71,8 @@ $ mocha $(node-version --lt-4.0.0 --compilers js:babel/register)
 
 The stack trace is often obfuscated when using the babel compiler (the line numbers won't match up).
 
-Disabling the compiler when it is not needed improves performance, and gives nice stack traces.
+Getting rid of `babel` improves performance, and gives nice stack traces on Node 4+. This scripts allows you to
+continue running your CI tests against old versions of Node.
 
 
 ## License
