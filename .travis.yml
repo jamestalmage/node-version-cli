@@ -11,5 +11,5 @@ before_install:
   - '[ "${TRAVIS_NODE_VERSION}" != "0.8" ] || npm install -g npm@2'
 
 script:
-  - '[ "${TRAVIS_NODE_VERSION}" != "0.8" ] && npm test'
-  - '[ "${TRAVIS_NODE_VERSION}" == "0.8" ] && npm run debug'
+  - '[ "${TRAVIS_NODE_VERSION}" == "0.8" ] || npm test'
+  - '[ "${TRAVIS_NODE_VERSION}" != "0.8" ] || npm run debug'
