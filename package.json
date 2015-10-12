@@ -1,0 +1,50 @@
+{
+  "name": "node-version-cli",
+  "version": "0.0.0",
+  "description": "Conditionally pass arguments on the command line depending on the current version of node.",
+  "license": "MIT",
+  "repository": "jamestalmage/node-version-cli",
+  "author": {
+    "name": "James Talmage",
+    "email": "james@talmage.io",
+    "url": "github.com/jamestalmage"
+  },
+  "bin": {
+    "node-version": "cli.js"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "scripts": {
+    "test": "xo && istanbul cover ./node_modules/.bin/_mocha",
+    "debug": "mocha"
+  },
+  "files": [
+    "index.js",
+    "cli.js"
+  ],
+  "keywords": [
+    "node",
+    "version",
+    "semver",
+    "conditional",
+    "arguments",
+    "cli-app",
+    "cli"
+  ],
+  "dependencies": {
+    "flatten": "0.0.1",
+    "semver": "^5.0.3"
+  },
+  "devDependencies": {
+    "istanbul": "^0.3.22",
+    "mocha": "^2.2.5",
+    "xo": "^0.9.0"
+  },
+  "xo": {
+    "envs": [
+      "node",
+      "mocha"
+    ]
+  }
+}
