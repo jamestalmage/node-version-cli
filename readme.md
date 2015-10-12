@@ -59,7 +59,7 @@ node-version --lt-3.0.0 --gte-4.0.0 || npm run node-3-only-tests
  Running only when the conditions pass is doable, but a bit more convoluted.
  It is often easier to just invert your condition and stick to using `||`.*
 
-## Intended Use
+## Command Substitution
 
 When combined with [Command Substitution](https://www.gnu.org/software/bash/manual/html_node/Command-Substitution.html) this becomes a powerful construct for controlling how bash scripts behave.
 
