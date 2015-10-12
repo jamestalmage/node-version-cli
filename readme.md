@@ -46,7 +46,7 @@ The program outputs the following:
 
 ## Failure Conditions and Exit Codes
 
-If the final arguments are `Version Condition`s (i.e. not `Output`), failure to satisfy the conditions will 
+If the final arguments are `Version Condition`s (i.e. conditions not followed by`Output`), failure to satisfy the conditions will 
 cause a `VersionConditionError` to be thrown and the process to exit with a non-zero error code. 
 
 You can use this with the bash `||` operator to **skip** commands for some versions.
